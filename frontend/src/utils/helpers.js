@@ -9,7 +9,7 @@ export const fallbackProjects = [
     currentPhase: 5,
     totalPhases: 6,
     progressPercent: 75,
-    repoUrl: 'https://github.com/IkagengSebesho/portfolio-website',
+    repoUrl: 'https://github.com/skikszilcho/Portfolio-App-FullStack',
     liveUrl: '#',
     previousPhase: 'Phases 1–4 complete: React migration, all seven sections, Skikszilcho chatbot with Gemini LLM, quota guard, system prompt, and contact pre-fill.',
     nextPhase: 'Phase 5 wires the contact form to a real email endpoint and adds a backend CV download route.',
