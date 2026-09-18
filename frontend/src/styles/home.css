@@ -1,0 +1,226 @@
+/* =========================================================
+   HOME  (two sides, constant gap, right side wraps below)
+========================================================= */
+.home {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--home-gap);
+  min-height: 100vh;
+  padding: 11rem 9% 6rem;
+}
+
+.home-content {
+  flex: 1 1 38rem;
+  max-width: 58rem;
+  display: grid;
+  gap: clamp(1.2rem, 1.6vw, 1.8rem);
+}
+
+.home-content h3 { font-size: clamp(2rem, 2.5vw, 3.2rem); font-weight: 700; }
+.home-content h1 { font-size: clamp(3.2rem, 4.4vw, 5.6rem); font-weight: 700; line-height: 1.1; }
+.home-content h3 span { color: var(--main-color); }
+.home-content p { font-size: clamp(1.4rem, 1.2vw, 1.65rem); color: var(--muted-color); line-height: 1.75; }
+
+.social-media {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 1.2vw, 1.5rem);
+}
+.social-media a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(3.8rem, 3.5vw, 4.4rem);
+  height: clamp(3.8rem, 3.5vw, 4.4rem);
+  border: .2rem solid var(--main-color);
+  border-radius: 50%;
+  font-size: clamp(1.8rem, 1.8vw, 2.2rem);
+  color: var(--main-color);
+  transition: .3s ease;
+}
+.social-media a:hover {
+  background: var(--main-color);
+  color: #fff;
+  box-shadow: 0 0 1.2rem var(--main-color);
+}
+
+.social-media .hackerrank-link { padding: .8rem; }
+.social-media .hackerrank-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* =========================================================
+   RIGHT SIDE — Rhombus, Photo & Rotating Wheel
+   Layer hierarchy:
+   z1 = Rotating wheel (arc + professions)
+   z2 = Rhombus (covers 3 inactive professions, transparent on left)
+   z3 = Person photo
+========================================================= */
+.home-img {
+  --wheel-size: min(56rem, 42vw);
+  --wheel-radius: calc(var(--wheel-size) / 2);
+  --prof-offset: calc(var(--wheel-size) * 0.2018);
+  --origin-dist: calc(var(--wheel-radius) + var(--prof-offset));
+  --wheel-left: calc(var(--wheel-size) * 0.1607);
+
+  flex: 1 1 calc(var(--wheel-size) + 4rem);
+  position: relative;
+  right: 0;
+  height: min(66rem, calc(var(--wheel-size) * 1.178));
+  max-width: min(82rem, calc(var(--wheel-size) * 1.464));
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+/* Layer 1: Rotating profession wheel & Arc */
+.profession-container {
+  position: absolute;
+  top: 50%;
+  left: var(--wheel-left);
+  transform: translateY(-50%);
+  width: var(--wheel-size);
+  height: var(--wheel-size);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.arc {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: var(--wheel-size);
+  height: var(--wheel-size);
+  border: calc(var(--wheel-size) * 0.00625) solid var(--main-color);
+  border-radius: 50%;
+  clip-path: inset(0 50% 0 0);
+  z-index: 1;
+}
+
+.profession-box {
+  position: absolute;
+  inset: 0;
+  animation: professionRotate 13s ease-out infinite;
+  z-index: 2;
+}
+
+@keyframes professionRotate {
+  0%,   20%  { transform: rotate(0deg);    }
+  25%,  45%  { transform: rotate(-90deg);  }
+  50%,  70%  { transform: rotate(-180deg); }
+  75%,  95%  { transform: rotate(-270deg); }
+  100%       { transform: rotate(-360deg); }
+}
+
+.profession {
+  position: absolute;
+  left: calc(-1 * var(--prof-offset));
+  top: 50%;
+  width: calc(var(--wheel-size) * 0.5);
+  min-height: calc(var(--wheel-size) * 0.3036);
+  padding: calc(var(--wheel-size) * 0.032) calc(var(--wheel-size) * 0.0357);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: calc(var(--wheel-size) * 0.0178);
+  color: var(--main-color);
+  background: var(--bg-color);
+  border-radius: calc(var(--wheel-size) * 0.032);
+  white-space: normal;
+  word-wrap: break-word;
+  z-index: 2;
+  transform: translateY(-50%) rotate(calc(90deg * var(--i)));
+  transform-origin: var(--origin-dist) center;
+}
+
+.profession i {
+  font-size: calc(var(--wheel-size) * 0.1);
+  display: block;
+}
+
+.profession h3 {
+  font-size: calc(var(--wheel-size) * 0.0571);
+  font-weight: 700;
+  line-height: 1.25;
+  white-space: normal;
+}
+
+/* Layer 2: Rhombus */
+.home-img .rhombus {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--main-color);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 43% 50%, 0 0);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Layer 3: Person photo */
+.home-img .person {
+  position: absolute;
+  bottom: 0;
+  right: -1rem;
+  width: 110%;
+  height: 107%;
+  z-index: 3;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  pointer-events: auto;
+}
+
+.home-img .person img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom right;
+  display: block;
+}
+
+/* =========================================================
+   IMAGE PLACEHOLDER (generic — used in About & Home)
+========================================================= */
+.img-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: .2rem dashed var(--main-color);
+  border-radius: 1rem;
+  color: var(--main-color);
+  font-size: 1.6rem;
+  font-weight: 600;
+  text-align: center;
+  min-height: 25rem;
+}
+.img-placeholder i { font-size: 3rem; margin-right: .8rem; }
+
+/* =========================================================
+   RESPONSIVE — home section
+========================================================= */
+@media (max-width: 768px) {
+  .home { padding-top: 12rem; text-align: center; }
+  .home-content { max-width: 100%; justify-items: center; }
+  .social-media { justify-content: center; }
+  .home-img {
+    --wheel-size: min(48rem, 80vw);
+    flex-basis: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 500px) {
+  .home-img { --wheel-size: min(34rem, 85vw); }
+}

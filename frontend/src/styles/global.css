@@ -1,0 +1,16 @@
+/*
+ * global.css — entry point for all styles.
+ * Import order matters: base first (variables + reset),
+ * then layout components in page order.
+ */
+
+@import './base.css';
+@import './header.css';
+@import './home.css';
+@import './about.css';
+@import './techstack.css';
+@import './experience.css';
+@import './portfolio.css';
+@import './education.css';
+@import './contact-footer.css';
+@import './chatbot.css';

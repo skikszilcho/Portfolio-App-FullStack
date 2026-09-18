@@ -1,0 +1,16 @@
+
+
+# ── Dependencies & build output ───────────────────────────────────────────────
+node_modules/
+dist/
+data/
+
+# ── Local environment files ────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── Private / excluded assets ─────────────────────────────────────────────────
+# Person photo — never commit; copy to public/ locally only
+public/Picture1.png
+src/assets/Picture1.png

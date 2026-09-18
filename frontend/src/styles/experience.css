@@ -1,0 +1,127 @@
+/* =========================================================
+   EXPERIENCE — vertical timeline
+========================================================= */
+#experience {
+  background: var(--second-bg-color);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Full-section SVG atmosphere */
+#experience::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('/section.svg') center center / cover no-repeat;
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Vividness boost — radial highlight near the top of the timeline */
+#experience::after {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 30%;
+  width: 65%;
+  height: 50%;
+  background: radial-gradient(
+    ellipse at 35% 25%,
+    rgba(130, 68, 255, 0.20) 0%,
+    rgba(249, 38, 174, 0.10) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Keep all timeline content above pseudo-elements */
+#experience > *,
+#experience .exp-timeline {
+  position: relative;
+  z-index: 1;
+}
+
+.exp-timeline {
+  max-width: 76rem;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Company heading sits outside the timeline line */
+.exp-company-name {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 1.6rem;
+  padding-left: .4rem;
+}
+
+/* Each company block */
+.exp-company-group { margin-bottom: 5rem; }
+
+/* Each role entry — left border line + dot */
+.exp-entry {
+  position: relative;
+  padding-left: 2.8rem;
+  border-left: .15rem solid var(--main-color);
+  margin-bottom: 3.6rem;
+}
+.exp-entry:last-child { margin-bottom: 0; }
+
+/* Dot on the line */
+.exp-dot {
+  position: absolute;
+  left: -.55rem;
+  top: .6rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: var(--main-color);
+  box-shadow: 0 0 .6rem var(--main-color);
+}
+
+/* Role title */
+.exp-role {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: .4rem;
+}
+
+/* Date line */
+.exp-date {
+  display: block;
+  font-size: 1.35rem;
+  color: var(--main-color);
+  margin-bottom: 1.4rem;
+  font-weight: 500;
+}
+
+/* Description paragraphs */
+.exp-content p {
+  font-size: 1.5rem;
+  color: var(--muted-color);
+  line-height: 1.75;
+  margin-bottom: 1rem;
+}
+.exp-content p:last-child { margin-bottom: 0; }
+
+/* Skill pills */
+.exp-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .8rem;
+  margin-top: 1.8rem;
+}
+.exp-pills span {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--main-color);
+  background: rgba(123,92,255,.1);
+  border: .1rem solid rgba(123,92,255,.3);
+  border-radius: 3rem;
+  padding: .4rem 1.2rem;
+}

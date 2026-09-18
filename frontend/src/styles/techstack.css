@@ -1,0 +1,244 @@
+/* =========================================================
+   TECH STACK — two-column layout + SVG animation
+========================================================= */
+.stack { background: var(--bg-color); }
+
+/* Two-column: animation left, all card groups right */
+.stack-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 6rem;
+  max-width: 120rem;
+  margin: 0 auto;
+}
+
+/* Left column — fixed width, vertically centres the SVG */
+.stack-left {
+  flex: 0 0 34rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+}
+
+.dw-wrapper {
+  width: 100%;
+  max-width: 34rem;
+}
+
+/* Right column — all four groups stack here */
+.stack-right {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+/* On narrow viewports stack animation above the cards */
+@media (max-width: 900px) {
+  .stack-layout { flex-direction: column; align-items: stretch; }
+  .stack-left   { align-self: auto; justify-content: center; }
+  .dw-wrapper   { max-width: 32rem; margin-inline: auto; }
+}
+
+/* ── SVG base ── */
+.dw-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* ── Ambient background glows ── */
+.dw-bg-glow {
+  transform-box: fill-box;
+  transform-origin: center;
+  filter: blur(18px);
+}
+.dw-bg-a { opacity: 0.13; animation: dw-glow-a 5s ease-in-out infinite; }
+.dw-bg-b { opacity: 0.16; animation: dw-glow-b 6s ease-in-out 1.2s infinite; }
+
+/* ── Device float (whole laptop) ── */
+.dw-device {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: dw-float 5s ease-in-out infinite;
+}
+
+/* ── Desk shadows pulse with the float ── */
+.dw-shadow {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: dw-shadow-pulse 5s ease-in-out infinite;
+}
+
+/* ── Screen glow overlay pulses ── */
+.dw-screen-pulse { animation: dw-screen-glow 4s ease-in-out infinite; }
+
+/* ── Shine sweep across screen ── */
+.dw-shine {
+  transform-box: fill-box;
+  animation: dw-shine 7s ease-in-out infinite;
+}
+
+/* ── Keyboard keys ambient glow ── */
+.dw-keys { animation: dw-keys-glow 3s ease-in-out infinite alternate; }
+
+/* ── Code lines: scaleX in from left, hold, fade back ── */
+.dw-cl {
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: dw-code-write 5s ease-in-out infinite;
+}
+.dw-cl-1 { animation-delay: 0s;    fill: #22d3ee; }
+.dw-cl-2 { animation-delay: 0.25s; fill: #a78bfa; }
+.dw-cl-3 { animation-delay: 0.5s;  fill: #f472b6; }
+.dw-cl-4 { animation-delay: 0.75s; fill: #34d399; }
+.dw-cl-5 { animation-delay: 1s;    fill: #fbbf24; }
+.dw-cl-6 { animation-delay: 1.25s; fill: #38bdf8; }
+.dw-cl-7 { animation-delay: 1.5s;  fill: #c084fc; }
+.dw-cl-8 { animation-delay: 1.75s; fill: #f472b6; }
+
+/* ── Cursor blink ── */
+.dw-cursor { animation: dw-blink 0.85s steps(1) infinite; }
+
+/* ── Cup gentle sway ── */
+.dw-cup-group {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: dw-cup-sway 7s ease-in-out infinite;
+}
+
+/* ── Steam trails ── */
+.dw-steam {
+  transform-box: fill-box;
+  transform-origin: bottom center;
+  stroke-dasharray: 42;
+  stroke-dashoffset: 42;
+}
+.dw-steam-a { animation: dw-steam-rise 3s ease-in-out infinite; }
+.dw-steam-b { animation: dw-steam-rise 3s ease-in-out 1s infinite; }
+.dw-steam-c { animation: dw-steam-rise 3s ease-in-out 2s infinite; }
+
+/* ── Decorative dot particles ── */
+.dw-dot {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.dw-dot-a { animation: dw-dot-drift 4s ease-in-out infinite; }
+.dw-dot-b { animation: dw-dot-drift 5s ease-in-out 0.8s infinite; }
+.dw-dot-c { animation: dw-dot-drift 4.5s ease-in-out 1.6s infinite; }
+.dw-dot-d { animation: dw-dot-drift 3.8s ease-in-out 0.4s infinite; }
+
+/* ═══════════════════════════════════
+   SVG KEYFRAMES
+═══════════════════════════════════ */
+@keyframes dw-glow-a {
+  0%, 100% { transform: scale(1);    opacity: 0.13; }
+  50%       { transform: scale(1.15); opacity: 0.22; }
+}
+@keyframes dw-glow-b {
+  0%, 100% { transform: scale(0.9);  opacity: 0.14; }
+  50%       { transform: scale(1.2);  opacity: 0.24; }
+}
+@keyframes dw-float {
+  0%, 100% { transform: translateY(0px)  rotate(0deg); }
+  50%       { transform: translateY(-7px) rotate(0.3deg); }
+}
+@keyframes dw-shadow-pulse {
+  0%, 100% { transform: scaleX(1);    opacity: 0.35; }
+  50%       { transform: scaleX(0.84); opacity: 0.18; }
+}
+@keyframes dw-screen-glow {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1;   }
+}
+@keyframes dw-shine {
+  0%,  20%  { transform: translateX(-20px); }
+  70%, 100% { transform: translateX(200px); }
+}
+@keyframes dw-keys-glow {
+  from { opacity: 0.5; }
+  to   { opacity: 1;   }
+}
+@keyframes dw-code-write {
+  0%,  10% { transform: scaleX(0); opacity: 0;    }
+  28%, 72% { transform: scaleX(1); opacity: 1;    }
+  88%,100% { transform: scaleX(1); opacity: 0.22; }
+}
+@keyframes dw-blink {
+  0%,  48% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+@keyframes dw-cup-sway {
+  0%, 100% { transform: rotate(0deg);   }
+  30%       { transform: rotate(0.6deg); }
+  70%       { transform: rotate(-0.5deg); }
+}
+@keyframes dw-steam-rise {
+  0%        { stroke-dashoffset: 42; opacity: 0;    transform: translateY(0)     scaleX(1);    }
+  15%       {                        opacity: 0.65; }
+  60%       { stroke-dashoffset: 0;  opacity: 0.55; transform: translateY(-6px)  scaleX(1.25); }
+  85%, 100% { stroke-dashoffset: 0;  opacity: 0;    transform: translateY(-10px) scaleX(1.5);  }
+}
+@keyframes dw-dot-drift {
+  0%, 100% { transform: translate(0, 0);    opacity: 0.4; }
+  50%       { transform: translate(0, -6px); opacity: 0.9; }
+}
+
+@media (max-width: 640px) {
+  .dw-wrapper { max-width: 26rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dw-svg * { animation: none !important; }
+}
+
+/* ── Stack card groups ── */
+.stack-group-label {
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .18rem;
+  color: var(--muted-color);
+  margin-bottom: 1.8rem;
+}
+
+.stack-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: 1.6rem;
+}
+
+.stack-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2.2rem 1rem;
+  background: var(--second-bg-color);
+  border: .1rem solid rgba(123,92,255,.3);
+  border-radius: 1.2rem;
+  box-shadow: 0 0 1rem rgba(123,92,255,.22),
+              inset 0 0 .6rem rgba(123,92,255,.06);
+  transition: border-color .25s, transform .25s, box-shadow .25s;
+  cursor: default;
+}
+.stack-card:hover {
+  border-color: var(--main-color);
+  transform: translateY(-.4rem);
+  box-shadow: 0 0 2rem rgba(123,92,255,.65),
+              0 .6rem 2.4rem rgba(123,92,255,.3),
+              inset 0 0 1rem rgba(123,92,255,.12);
+}
+.stack-card i {
+  font-size: 3.2rem;
+  color: var(--main-color);
+}
+.stack-card span {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color);
+  text-align: center;
+}

@@ -1,0 +1,242 @@
+/* =========================================================
+   PORTFOLIO — sticky stacking code cards
+========================================================= */
+.portfolio {
+  background: var(--second-bg-color);
+  position: relative;
+}
+
+.portfolio-stack-container {
+  max-width: 96rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-bottom: 4rem;
+}
+
+.project-card-wrapper {
+  position: sticky;
+  top: 10rem;
+  margin-bottom: 3.5rem;
+  transition: transform .3s ease;
+}
+
+/* Code Card Container */
+.project-card {
+  background: #0d1117;
+  border: .1rem solid rgba(123, 92, 255, .35);
+  border-radius: 1.6rem;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, .4), 0 0 1.5rem rgba(123, 92, 255, .15);
+  overflow: hidden;
+  position: relative;
+  transition: border-color .3s, box-shadow .3s;
+}
+
+body:not(.dark-mode) .project-card {
+  background: #161b22;
+  border: .1rem solid rgba(123, 92, 255, .45);
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, .2), 0 0 1.5rem rgba(123, 92, 255, .18);
+}
+
+.project-card:hover {
+  border-color: var(--main-color);
+  box-shadow: 0 1.5rem 3.5rem rgba(0, 0, 0, .5), 0 0 2.5rem rgba(123, 92, 255, .35);
+}
+
+/* Card Header — Mac-style top bar */
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.4rem 2rem;
+  background: rgba(255, 255, 255, .03);
+  border-bottom: .1rem solid rgba(255, 255, 255, .08);
+}
+
+.card-dots {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  flex: 0 0 auto;
+}
+
+.card-dots span {
+  display: inline-block;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+}
+
+.card-dots .dot-red    { background: #ff5f56; }
+.card-dots .dot-yellow { background: #ffbd2e; }
+.card-dots .dot-green  { background: #27c93f; }
+
+.card-header-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #22d3ee;
+  letter-spacing: .05rem;
+  text-align: center;
+  flex: 1 1 auto;
+  margin: 0 1.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 0 0 auto;
+}
+
+.card-header-actions a {
+  color: var(--muted-color);
+  font-size: 1.8rem;
+  transition: color .2s, transform .2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-header-actions a:hover {
+  color: var(--main-color);
+  transform: translateY(-.2rem);
+}
+
+/* Card Body — Code Block */
+.card-body {
+  padding: 2.2rem 2.5rem;
+  font-family: "Fira Code", "Consolas", "Courier New", monospace;
+  font-size: 1.4rem;
+  line-height: 1.7;
+  color: #e6edf3;
+  overflow-x: auto;
+}
+
+.card-body * { font-family: inherit; }
+
+.code-line {
+  margin-bottom: .6rem;
+  word-break: break-word;
+}
+
+.code-indent { padding-left: 2.4rem; }
+
+/* Syntax Highlighting Tokens */
+.syn-keyword { color: #ff7b72; font-weight: 600; }
+.syn-var     { color: #d2a8ff; font-weight: 600; }
+.syn-prop    { color: #e6edf3; }
+.syn-colon   { color: #8b949e; margin-right: .4rem; }
+.syn-string  { color: #7ee787; }
+.syn-accent  { color: #ffa657; font-weight: 500; }
+.syn-desc    { color: #79c0ff; line-height: 1.6; display: inline; }
+.syn-bracket { color: #8b949e; }
+.syn-comma   { color: #8b949e; }
+
+/* Status Badge & Progress UI */
+.card-meta-bar {
+  margin: 1.4rem 0 .8rem 2.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .35rem 1.1rem;
+  border-radius: 2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .06rem;
+}
+
+.status-badge.in-progress {
+  background: rgba(245, 158, 11, .15);
+  color: #f59e0b;
+  border: .1rem solid rgba(245, 158, 11, .35);
+}
+
+.status-badge.completed {
+  background: rgba(16, 185, 129, .15);
+  color: #10b981;
+  border: .1rem solid rgba(16, 185, 129, .35);
+}
+
+.status-badge.planned {
+  background: rgba(148, 163, 184, .15);
+  color: #94a3b8;
+  border: .1rem solid rgba(148, 163, 184, .35);
+}
+
+.status-dot {
+  width: .7rem;
+  height: .7rem;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-badge.in-progress .status-dot { background: #f59e0b; box-shadow: 0 0 .8rem #f59e0b; }
+.status-badge.completed    .status-dot { background: #10b981; box-shadow: 0 0 .8rem #10b981; }
+.status-badge.planned      .status-dot { background: #94a3b8; }
+
+/* Progress Bar */
+.progress-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex: 1 1 24rem;
+  max-width: 38rem;
+}
+
+.progress-track {
+  flex: 1 1 auto;
+  height: .8rem;
+  background: rgba(255, 255, 255, .1);
+  border-radius: 1rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #7b5cff, #22d3ee);
+  border-radius: 1rem;
+  box-shadow: 0 0 .8rem rgba(123, 92, 255, .6);
+  transition: width 1s ease-in-out;
+}
+
+.progress-label {
+  font-size: 1.2rem;
+  color: #8b949e;
+  white-space: nowrap;
+}
+
+/* Changelog */
+.changelog-summary {
+  margin-top: 1rem;
+  margin-left: 2.4rem;
+  font-size: 1.25rem;
+  color: #8b949e;
+  border-top: .1rem dashed rgba(255, 255, 255, .1);
+  padding-top: .8rem;
+}
+
+.changelog-summary span { color: #a5d6ff; }
+
+/* =========================================================
+   RESPONSIVE — portfolio cards
+========================================================= */
+@media (max-width: 768px) {
+  .project-card-wrapper { top: 8rem; margin-bottom: 2.5rem; }
+  .card-body            { padding: 1.8rem 1.6rem; font-size: 1.25rem; }
+  .code-indent          { padding-left: 1.4rem; }
+  .card-meta-bar        { margin-left: 1.4rem; flex-direction: column; align-items: flex-start; }
+  .card-header-title    { font-size: 1.4rem; }
+}

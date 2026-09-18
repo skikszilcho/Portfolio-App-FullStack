@@ -1,0 +1,64 @@
+/* =========================================================
+   HEADER / NAVBAR
+========================================================= */
+.header {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  padding: 2rem 9%;
+  background: var(--bg-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 100;
+  box-shadow: none;
+  transition: box-shadow .3s, background .3s, padding .3s;
+}
+
+.header.sticky {
+  box-shadow: var(--shadow);
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.logo { display: inline-flex; align-items: center; }
+.logo-img { height: 4.8rem; width: auto; display: block; }
+
+.navbar a {
+  font-size: 1.7rem;
+  color: var(--text-color);
+  margin-left: 3.5rem;
+  transition: .3s;
+}
+.navbar a.active,
+.navbar a:hover { color: var(--main-color); }
+
+#darkMode-icon { font-size: 2.6rem; color: var(--text-color); cursor: pointer; }
+#menu-icon { font-size: 3.6rem; color: var(--text-color); display: none; }
+
+/* Reset browser button defaults for icon buttons */
+#darkMode-icon,
+#menu-icon {
+  background: none;
+  border: none;
+  padding: 0;
+  line-height: 1;
+}
+
+/* =========================================================
+   RESPONSIVE — header / navbar
+========================================================= */
+@media (max-width: 768px) {
+  #menu-icon { display: block; }
+  .navbar {
+    position: absolute;
+    top: 100%; left: 0;
+    width: 100%;
+    padding: 1rem 5%;
+    background: var(--bg-color);
+    box-shadow: var(--shadow);
+    display: none;
+  }
+  .navbar.active { display: block; }
+  .navbar a { display: block; margin: 1.5rem 0; font-size: 2rem; }
+}

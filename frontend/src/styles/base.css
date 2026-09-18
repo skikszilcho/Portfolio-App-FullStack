@@ -1,0 +1,78 @@
+/* =========================================================
+   BASE / RESET / THEME VARIABLES
+========================================================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  text-decoration: none;
+  list-style: none;
+  border: none;
+  outline: none;
+  scroll-behavior: smooth;
+}
+
+:root {
+  --bg-color: #fdfdfd;
+  --second-bg-color: #f3f3f7;
+  --text-color: #1a1a1a;
+  --muted-color: #555;
+  --main-color: #7b5cff;
+  --shadow: 0 .4rem 1.2rem rgba(0,0,0,.12);
+
+  /* constant gap between the two home sides */
+  --home-gap: 4rem;
+}
+
+/* Dark mode overrides */
+.dark-mode {
+  --bg-color: #12141d;
+  --second-bg-color: #1c1f2b;
+  --text-color: #f5f5f5;
+  --muted-color: #b8b8c0;
+  --shadow: 0 .4rem 1.2rem rgba(0,0,0,.45);
+}
+
+html { font-size: 62.5%; overflow-x: hidden; }  /* 1rem = 10px */
+
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+  transition: background .3s, color .3s;
+}
+
+section { min-height: 100vh; padding: 10rem 9% 6rem; }
+
+.heading { text-align: center; font-size: 4.5rem; margin-bottom: 4rem; }
+.heading span { color: var(--main-color); }
+
+.btn {
+  display: inline-block;
+  padding: 1.1rem 2.8rem;
+  background: var(--main-color);
+  border-radius: 4rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #fff;
+  box-shadow: 0 0 1rem var(--main-color);
+  transition: .3s ease;
+}
+
+.home-content .btn {
+  justify-self: start;   /* don't stretch — hug the content */
+  width: max-content;    /* size to the text + padding only */
+}
+
+.btn:hover { transform: translateY(-3px); box-shadow: 0 0 1.8rem var(--main-color); }
+
+/* =========================================================
+   RESPONSIVE — global section padding
+========================================================= */
+@media (max-width: 992px) {
+  section { padding: 10rem 5% 6rem; }
+}
+
+@media (max-width: 500px) {
+  .heading { font-size: 3.4rem; }
+}

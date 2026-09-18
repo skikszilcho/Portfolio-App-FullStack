@@ -1,0 +1,37 @@
+﻿# ── Dependencies & build output ───────────────────────────────────────────────
+node_modules/
+dist/
+
+# ── Local environment files ────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── Private / excluded assets ─────────────────────────────────────────────────
+# Person photo — never commit; copy to public/ locally only
+public/Picture1.png
+src/assets/Picture1.png
+
+# CV / resume documents
+*.pdf
+
+# ── Logs ──────────────────────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ── Editor & IDE ──────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── Operating system ──────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Vite / tooling cache ──────────────────────────────────────────────────────
+.vite/
+coverage/

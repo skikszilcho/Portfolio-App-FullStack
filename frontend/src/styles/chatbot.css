@@ -1,0 +1,314 @@
+/* =========================================================
+   CHATBOT WIDGET — Skikszilcho
+   Floating bubble (bottom-right) + chat panel
+========================================================= */
+
+/* ── Bubble button ────────────────────────────────────────────── */
+.chat-bubble-btn {
+  position: static;
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  background: var(--main-color);
+  box-shadow: 0 0 1.4rem var(--main-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .2s, box-shadow .2s;
+}
+
+.chat-bubble-btn:hover { transform: scale(1.1); box-shadow: 0 0 2rem var(--main-color); }
+.chat-bubble-btn--open { background: var(--second-bg-color); }
+.chat-bubble-btn--open i { font-size: 2.8rem; color: var(--main-color); }
+
+.chat-bubble-logo {
+  width: 4.2rem;
+  height: 4.2rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* ── Bubble wrapper + tooltip ─────────────────────────────────────────────── */
+.chat-bubble-wrapper {
+  position: fixed;
+  bottom: 2.8rem;
+  right: 2.8rem;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .8rem;
+}
+
+/* Move the button's position: fixed off the button itself — now on the wrapper */
+.chat-bubble-btn {
+  position: static;   /* override the existing position: fixed */
+  bottom: unset;
+  right: unset;
+  z-index: unset;
+}
+
+.chat-bubble-tooltip {
+  background: var(--second-bg-color);
+  color: var(--text-color);
+  border: 1px solid rgba(123, 92, 255, .25);
+  border-radius: .8rem;
+  padding: .6rem 1.2rem;
+  font-size: 1.3rem;
+  white-space: nowrap;
+  box-shadow: var(--shadow);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(.6rem);
+  transition: opacity .2s ease, transform .2s ease;
+}
+
+.chat-bubble-wrapper:hover .chat-bubble-tooltip {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Mobile: keep wrapper pinned bottom-right */
+@media (max-width: 768px) {
+  .chat-bubble-wrapper { bottom: 2rem; right: 2rem; }
+}
+
+
+
+/* ── Panel (desktop) ──────────────────────────────────────────── */
+.chat-panel {
+  position: fixed;
+  bottom: 10rem;
+  right: 2.8rem;
+  z-index: 999;
+  width: 36rem;
+  max-height: 55vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--second-bg-color);
+  border: 1px solid rgba(123, 92, 255, .25);
+  border-radius: 1.6rem;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+/* ── Panel (mobile full-screen) ───────────────────────────────── */
+@media (max-width: 768px) {
+  .chat-panel {
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100%; max-height: 100%;
+    border-radius: 0;
+    border: none;
+  }
+  .chat-bubble-btn { bottom: 2rem; right: 2rem; }
+}
+
+/* ── Header ───────────────────────────────────────────────────── */
+.chat-panel__header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.2rem 1.6rem;
+  background: var(--main-color);
+  flex-shrink: 0;
+}
+
+.chat-header-logo {
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.chat-header-name {
+  flex: 1;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.chat-close-btn {
+  background: none;
+  cursor: pointer;
+  color: #fff;
+  font-size: 2.2rem;
+  display: flex;
+  align-items: center;
+  padding: .2rem;
+  border-radius: 50%;
+  transition: background .15s;
+}
+.chat-close-btn:hover { background: rgba(255,255,255,.15); }
+
+/* ── Message list ─────────────────────────────────────────────── */
+.chat-panel__messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.4rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ── Individual messages ──────────────────────────────────────── */
+.chat-message {
+  display: flex;
+  align-items: flex-end;
+  gap: .8rem;
+  max-width: 88%;
+}
+
+.chat-message--user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.chat-message--assistant { align-self: flex-start; }
+
+.chat-avatar {
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.chat-bubble {
+  padding: 1rem 1.4rem;
+  border-radius: 1.4rem;
+  font-size: 1.4rem;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.chat-message--user .chat-bubble {
+  background: var(--main-color);
+  color: #fff;
+  border-bottom-right-radius: .3rem;
+}
+
+.chat-message--assistant .chat-bubble {
+  background: var(--bg-color);
+  color: var(--text-color);
+  border: 1px solid rgba(123, 92, 255, .18);
+  border-bottom-left-radius: .3rem;
+}
+
+/* ── Typing indicator ─────────────────────────────────────────── */
+.chat-bubble--typing {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: 1.2rem 1.6rem;
+}
+
+.chat-bubble--typing span {
+  display: inline-block;
+  width: .8rem;
+  height: .8rem;
+  border-radius: 50%;
+  background: var(--main-color);
+  animation: typing-bounce .9s infinite ease-in-out;
+}
+
+.chat-bubble--typing span:nth-child(2) { animation-delay: .15s; }
+.chat-bubble--typing span:nth-child(3) { animation-delay: .3s; }
+
+@keyframes typing-bounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: .5; }
+  40%            { transform: translateY(-.5rem); opacity: 1; }
+}
+
+/* ── Session cap notice ───────────────────────────────────────── */
+.chat-session-cap-notice {
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--muted-color);
+  padding: .8rem 1.2rem;
+  background: var(--second-bg-color);
+  border-radius: .8rem;
+  border: 1px solid rgba(123, 92, 255, .12);
+}
+
+/* ── Input bar ────────────────────────────────────────────────── */
+.chat-panel__input {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  padding: 1rem 1.2rem;
+  border-top: 1px solid rgba(123, 92, 255, .15);
+  flex-shrink: 0;
+  background: var(--second-bg-color);
+}
+
+.chat-panel__input input {
+  flex: 1;
+  background: var(--bg-color);
+  color: var(--text-color);
+  border: 1px solid rgba(123, 92, 255, .2);
+  border-radius: 2rem;
+  padding: .9rem 1.4rem;
+  font-size: 1.4rem;
+  transition: border-color .2s;
+}
+
+.chat-panel__input input:focus {
+  border-color: var(--main-color);
+  box-shadow: 0 0 .6rem rgba(123, 92, 255, .25);
+}
+
+.chat-panel__input input:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.chat-panel__input button[type="submit"] {
+  width: 3.8rem;
+  height: 3.8rem;
+  border-radius: 50%;
+  background: var(--main-color);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  cursor: pointer;
+  transition: transform .15s, opacity .15s;
+  flex-shrink: 0;
+}
+
+.chat-panel__input button[type="submit"]:hover:not(:disabled) { transform: scale(1.08); }
+.chat-panel__input button[type="submit"]:disabled { opacity: .4; cursor: not-allowed; }
+
+
+/* ── Suggested questions ──────────────────────────────────────────────────── */
+.chat-suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+  margin: .6rem 0;
+}
+
+.chat-suggestion-btn {
+  background: var(--bg-color);
+  color: var(--main-color);
+  border: 1px solid rgba(123, 92, 255, .3);
+  border-radius: 2rem;
+  padding: .8rem 1.4rem;
+  font-size: 1.3rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+  line-height: 1.4;
+}
+
+.chat-suggestion-btn:hover:not(:disabled) {
+  background: rgba(123, 92, 255, .08);
+  border-color: var(--main-color);
+}
+
+.chat-suggestion-btn:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
