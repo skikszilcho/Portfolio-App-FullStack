@@ -66,6 +66,18 @@ function ProjectCard({ project, index }) {
             </div>
           </div>
 
+          {project.previousPhase && (
+            <div className="changelog-summary phase-note phase-prev">
+              <strong>✓ Previous:</strong> <span>{project.previousPhase}</span>
+            </div>
+          )}
+
+          {project.nextPhase && (
+            <div className="changelog-summary phase-note phase-next">
+              <strong>→ Next:</strong> <span>{project.nextPhase}</span>
+            </div>
+          )}
+
           {latestUpdate && (
             <div className="changelog-summary">
               <strong>Latest Update ({latestUpdate.version}):</strong> <span>{latestUpdate.notes}</span>

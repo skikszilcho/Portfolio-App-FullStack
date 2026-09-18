@@ -36,7 +36,7 @@ function Home() {
     <section className="home" id="home">
       <div className="home-content">
         <h3>Hello, My name is</h3>
-        <h1>Ikageng Sebesho</h1>
+        <h1><span className="home-name-highlight">Ikageng</span> Sebesho</h1>
         <h3>And I'm <span className="typing-text">{currentRole}</span></h3>
         <p>
           Aspiring AI Infrastructure &amp; Platform Engineer with a background in Chemical Engineering. Focused on designing and deploying scalable AI systems, data pipelines, and production-ready applications.
@@ -63,16 +63,16 @@ function Home() {
         <div className="profession-container">
           <div className="profession-box">
             <div className="profession" style={{ '--i': 0 }}>
-              <i className="bx bx-code-alt"></i><h3>Python<br />Developer</h3>
+              <i className="bx bx-code-alt"></i><h3><span className="prof-accent">Python</span><br />Developer</h3>
             </div>
             <div className="profession" style={{ '--i': 1 }}>
-              <i className="bx bx-brain"></i><h3>AI Engineer</h3>
+              <i className="bx bx-brain"></i><h3><span className="prof-accent">AI</span> Engineer</h3>
             </div>
             <div className="profession" style={{ '--i': 2 }}>
-              <i className="bx bx-bot"></i><h3>Applied AI Developer</h3>
+              <i className="bx bx-bot"></i><h3><span className="prof-accent">Applied</span> AI <span className="prof-accent">Developer</span></h3>
             </div>
             <div className="profession" style={{ '--i': 3 }}>
-              <i className="bx bx-bulb"></i><h3>Solutions Developer</h3>
+              <i className="bx bx-bulb"></i><h3><span className="prof-accent">Solutions</span> Developer</h3>
             </div>
           </div>
           <span className="arc"></span>

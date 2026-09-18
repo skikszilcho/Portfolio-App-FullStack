@@ -230,6 +230,11 @@ body:not(.dark-mode) .project-card {
 
 .changelog-summary span { color: #a5d6ff; }
 
+/* Phase notes for in-progress projects */
+.phase-note { margin-top: .6rem; }
+.phase-prev strong { color: #34d399; }
+.phase-next strong { color: #fbbf24; }
+
 /* =========================================================
    RESPONSIVE — portfolio cards
 ========================================================= */

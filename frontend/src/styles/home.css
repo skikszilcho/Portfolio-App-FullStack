@@ -21,6 +21,7 @@
 .home-content h3 { font-size: clamp(2rem, 2.5vw, 3.2rem); font-weight: 700; }
 .home-content h1 { font-size: clamp(3.2rem, 4.4vw, 5.6rem); font-weight: 700; line-height: 1.1; }
 .home-content h3 span { color: var(--main-color); }
+.home-name-highlight { color: var(--main-color); }
 .home-content p { font-size: clamp(1.4rem, 1.2vw, 1.65rem); color: var(--muted-color); line-height: 1.75; }
 
 .social-media {
@@ -154,6 +155,9 @@
   line-height: 1.25;
   white-space: normal;
 }
+
+/* Accent words in profession cards match the "Hello, My name is" h3 colour */
+.profession h3 .prof-accent { color: var(--text-color); }
 
 /* Layer 2: Rhombus */
 .home-img .rhombus {
