@@ -5,6 +5,10 @@ import { sendChatMessage } from '../../api/chat';
 
 const SESSION_CAP = 10;
 
+// Set true when deploying to a static host (GitHub Pages) with no backend.
+// The chat panel will show a "coming soon" placeholder instead of the live input.
+const STATIC_MODE = true;
+
 function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);   // does NOT include the welcome message
@@ -83,6 +87,7 @@ function ChatBot() {
           onSuggest={handleSend}
           onClose={() => setIsOpen(false)}
           isDisabled={isDisabled}
+          staticMode={STATIC_MODE}
         />
       )}
       <ChatBubble isOpen={isOpen} onClick={() => setIsOpen((o) => !o)} />

@@ -18,7 +18,7 @@ import react from '@vitejs/plugin-react';
 // import vue   from '@vitejs/plugin-vue';     // CHANGE: uncomment for Vue
 
 export default defineConfig({
-  // base: '/',  // CHANGE: set to sub-path if deploying to /my-app/ etc.
+  base: '/Portfolio-App-FullStack/',  // GitHub Pages — repo name sub-path
 
   plugins: [
     react(),
