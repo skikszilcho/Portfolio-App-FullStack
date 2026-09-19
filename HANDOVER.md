@@ -201,12 +201,3 @@ cd backend && npm install && npm run dev
 The Vite proxy forwards `/api/*` → `http://localhost:5000` in dev.  
 For local dev, temporarily revert `base` in `vite.config.js` to `'/'` if assets
 don't load, then restore before committing.
-
----
-
-## 12. Skill & Documentation
-
-The `portfolio-editor` Bob skill at `~/.bob/skills/portfolio-editor/SKILL.md`
-contains all guardrails, CSS variable names, z-index hierarchy, recurring error
-patterns, and per-section rules. Activate it at the start of any Portfolio-App
-editing session.
