@@ -26,53 +26,78 @@ const BUBBLE_COLOURS = [
 ];
 
 function makeBubbles(w, h) {
+  // Base desktop reference dimension for proportional scaling
+  const baseDim = 500;
+  const currentDim = Math.min(w, h);
+  const scale = Math.max(0.48, Math.min(1.05, currentDim / baseDim));
+
   return SOFT_SKILLS.map((label, i) => {
-    const r = 92 + Math.random() * 28;        // 92–120 px radius — larger
+    const isSingleWord = !label.includes(' ');
+    // Single-word bubbles are smaller than multi-word bubbles
+    const baseR = isSingleWord
+      ? (62 + (i % 3) * 6)
+      : (94 + (i % 4) * 8);
+
+    const r = Math.round(baseR * scale);
     const colour = BUBBLE_COLOURS[i % BUBBLE_COLOURS.length];
+    
+    // Scale velocity proportionally with scale factor for consistent timing/speed
+    const speed = 0.85 * scale;
+    const angle = Math.random() * Math.PI * 2;
+    const vx = Math.cos(angle) * speed;
+    const vy = Math.sin(angle) * speed;
+
     return {
       label,
       r,
-      x: r + Math.random() * Math.max(0, w - r * 2),
-      y: r + Math.random() * Math.max(0, h - r * 2),
-      vx: (Math.random() - 0.5) * 1.4,
-      vy: (Math.random() - 0.5) * 1.4,
+      scale,
+      isSingleWord,
+      x: r + Math.random() * Math.max(10, w - r * 2),
+      y: r + Math.random() * Math.max(10, h - r * 2),
+      vx: vx === 0 ? 0.5 * scale : vx,
+      vy: vy === 0 ? 0.5 * scale : vy,
       colour,
     };
   });
 }
 
 function drawBubble(ctx, b) {
-  const { x, y, r, label, colour } = b;
+  const { x, y, r, label, colour, scale = 1, isSingleWord } = b;
 
   /* Glow + fill */
   ctx.save();
   ctx.shadowColor = colour.glow;
-  ctx.shadowBlur  = 28;
+  ctx.shadowBlur  = Math.max(8, Math.round(24 * scale));
   ctx.beginPath();
   ctx.arc(x, y, r, 0, Math.PI * 2);
   ctx.fillStyle   = colour.fill;
   ctx.fill();
   ctx.strokeStyle = colour.stroke;
-  ctx.lineWidth   = 2.5;
+  ctx.lineWidth   = Math.max(1.5, 2.5 * scale);
   ctx.stroke();
   ctx.restore();
 
   /* Inner ring accent */
   ctx.save();
   ctx.beginPath();
-  ctx.arc(x, y, r - 7, 0, Math.PI * 2);
+  const innerOffset = Math.max(3, Math.round(6 * scale));
+  ctx.arc(x, y, Math.max(1, r - innerOffset), 0, Math.PI * 2);
   ctx.strokeStyle = colour.stroke;
   ctx.globalAlpha = 0.2;
-  ctx.lineWidth   = 1.2;
+  ctx.lineWidth   = Math.max(1, 1.2 * scale);
   ctx.stroke();
   ctx.restore();
 
-  /* Label — tighter wrap to fill the circle */
+  /* Label — dynamic font size and line height proportional to bubble radius */
   const words = label.split(' ');
   const lines  = [];
   let cur      = '';
-  const maxW   = r * 1.2;
-  const fontSize = 17;
+  const maxW   = r * 1.35;
+  // Font size scaled with bubble radius and word count
+  const fontSize = isSingleWord
+    ? Math.max(10, Math.min(16, Math.round(r * 0.28)))
+    : Math.max(9, Math.min(15, Math.round(r * 0.21)));
+
   ctx.font = `600 ${fontSize}px -apple-system, "Segoe UI", system-ui, sans-serif`;
   for (const w of words) {
     const test = cur ? `${cur} ${w}` : w;
@@ -85,7 +110,7 @@ function drawBubble(ctx, b) {
   }
   if (cur) lines.push(cur);
 
-  const lineH  = fontSize + 5;
+  const lineH  = fontSize + Math.max(3, Math.round(4 * scale));
   const totalH = lines.length * lineH;
   const startY = y - totalH / 2 + lineH * 0.5;
 
@@ -175,10 +200,17 @@ function About() {
       for (const b of bubbles) {
         b.x += b.vx;
         b.y += b.vy;
-        /* Right wall only — left is open so bubbles drift off-screen */
+        /* Wall collisions:
+           On desktop (>900px), left wall is open allowing bubbles to drift off-screen left and re-enter.
+           On mobile (<=900px), the container is full-width with overflow:hidden; left wall bounces so bubbles remain visible and readable inside the allocated container */
+        const isMobile = W <= 600;
+        if (isMobile) {
+          if (b.x - b.r < 0) { b.x = b.r; b.vx = Math.abs(b.vx); }
+        } else {
+          if (b.x + b.r < 0) { b.x = -b.r + 1; b.vx = Math.abs(b.vx); }
+        }
+
         if (b.x + b.r > W)  { b.x = W - b.r;  b.vx = -Math.abs(b.vx); }
-        /* Restore from hard-left overshoot so they re-enter */
-        if (b.x + b.r < 0)  { b.x = -b.r + 1; b.vx = Math.abs(b.vx);  }
         if (b.y - b.r < 0)  { b.y = b.r;       b.vy = Math.abs(b.vy);  }
         if (b.y + b.r > H)  { b.y = H - b.r;   b.vy = -Math.abs(b.vy); }
       }

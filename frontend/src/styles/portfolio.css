@@ -16,8 +16,7 @@
 }
 
 .project-card-wrapper {
-  position: sticky;
-  top: 10rem;
+  position: relative;
   margin-bottom: 3.5rem;
   transition: transform .3s ease;
 }
@@ -239,7 +238,7 @@ body:not(.dark-mode) .project-card {
    RESPONSIVE — portfolio cards
 ========================================================= */
 @media (max-width: 768px) {
-  .project-card-wrapper { top: 8rem; margin-bottom: 2.5rem; }
+  .project-card-wrapper { margin-bottom: 2.8rem; }
   .card-body            { padding: 1.8rem 1.6rem; font-size: 1.25rem; }
   .code-indent          { padding-left: 1.4rem; }
   .card-meta-bar        { margin-left: 1.4rem; flex-direction: column; align-items: flex-start; }
