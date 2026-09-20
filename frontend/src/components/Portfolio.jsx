@@ -1,12 +1,19 @@
 import { useEffect, useState } from 'react';
 import { fallbackProjects, getStatusLabel } from '../utils/helpers.js';
 
-function ProjectCard({ project }) {
+function ProjectCard({ project, index }) {
   const latestUpdate = project.changelog?.at(-1);
   const progress = project.progressPercent || 0;
 
   return (
-    <div className="project-card-wrapper">
+    <div
+      className="project-card-wrapper"
+      style={{
+        '--card-index': index,
+        top: `calc(9rem + ${index * 2.2}rem)`,
+        zIndex: index + 1,
+      }}
+    >
       <div className="project-card">
         <div className="card-header">
           <div className="card-dots">
@@ -117,8 +124,8 @@ function Portfolio() {
     <section className="portfolio" id="portfolio">
       <h2 className="heading">Featured <span>Projects</span></h2>
       <div className="portfolio-stack-container">
-        {projects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
+        {projects.map((project, index) => (
+          <ProjectCard key={project.id} project={project} index={index} />
         ))}
       </div>
     </section>
