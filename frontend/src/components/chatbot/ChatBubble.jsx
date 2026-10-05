@@ -13,7 +13,7 @@ function ChatBubble({ isOpen, onClick }) {
       >
         {isOpen
           ? <i className="bx bx-x"></i>
-          : <img src="/logo.png" alt="Skikszilcho" className="chat-bubble-logo" />
+          : <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Skikszilcho" className="chat-bubble-logo" />
         }
       </button>
     </div>

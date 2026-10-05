@@ -45,7 +45,7 @@ function Header({ darkMode, onToggleDarkMode }) {
   return (
     <header className={`header${sticky ? ' sticky' : ''}`}>
       <a href="#home" className="logo" onClick={() => handleNavClick('home')}>
-        <img src="/logo.png" alt="Logo" className="logo-img" />
+        <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Logo" className="logo-img" />
       </a>
 
       <button

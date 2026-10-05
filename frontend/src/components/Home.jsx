@@ -63,7 +63,7 @@ function Home() {
         <div className="social-media">
           <a href="#" aria-label="GitHub"><i className="bx bxl-github"></i></a>
           <a href="#" className="hackerrank-link" aria-label="HackerRank">
-            <img src="/hackerrank-logo-png_seeklogo-455716.png" alt="HackerRank" className="hackerrank-icon" />
+            <img src={`${import.meta.env.BASE_URL}hackerrank-logo-png_seeklogo-455716.png`} alt="HackerRank" className="hackerrank-icon" />
           </a>
           <a href="#" aria-label="Instagram"><i className="bx bxl-instagram"></i></a>
           <a href="#" aria-label="LinkedIn"><i className="bx bxl-linkedin"></i></a>
@@ -75,7 +75,7 @@ function Home() {
       <div className="home-img">
         <div className="rhombus"></div>
         <div className="person">
-          <img src="/Picture1.png" alt="Ikageng Sebesho" />
+          <img src={`${import.meta.env.BASE_URL}Picture1.png`} alt="Ikageng Sebesho" />
         </div>
 
         <div className="profession-container">

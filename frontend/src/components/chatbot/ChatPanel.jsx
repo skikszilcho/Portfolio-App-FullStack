@@ -39,7 +39,7 @@ function ChatPanel({ messages, isLoading, onSend, onClose, isDisabled, onSuggest
     <div className="chat-panel" role="dialog" aria-label="Skikszilcho chat">
       {/* Header */}
       <div className="chat-panel__header">
-        <img src="/logo.png" alt="Skikszilcho" className="chat-header-logo" />
+        <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Skikszilcho" className="chat-header-logo" />
         <span className="chat-header-name">Skikszilcho</span>
         <button className="chat-close-btn" onClick={onClose} aria-label="Close chat">
           <i className="bx bx-x"></i>
@@ -70,7 +70,7 @@ function ChatPanel({ messages, isLoading, onSend, onClose, isDisabled, onSuggest
         ))}
         {isLoading && (
           <div className="chat-message chat-message--assistant">
-            <img src="/logo.png" alt="Skikszilcho" className="chat-avatar" />
+            <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Skikszilcho" className="chat-avatar" />
             <div className="chat-bubble chat-bubble--typing">
               <span></span><span></span><span></span>
             </div>
