@@ -64,6 +64,7 @@
   transform-box: fill-box;
   transform-origin: center bottom;
   animation: dw-float 5s ease-in-out infinite;
+  will-change: transform;
 }
 
 /* ── Desk shadows pulse with the float ── */
@@ -190,6 +191,10 @@
 @media (max-width: 640px) {
   .dw-wrapper { max-width: 26rem; }
 }
+/* Pause all SVG animations when the section is off-screen.
+   TechStack.jsx toggles this class via IntersectionObserver. */
+.dw-paused .dw-svg * { animation-play-state: paused !important; }
+
 @media (prefers-reduced-motion: reduce) {
   .dw-svg * { animation: none !important; }
 }

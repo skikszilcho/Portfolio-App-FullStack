@@ -1,6 +1,34 @@
-﻿function TechStack() {
+import { useEffect, useRef } from 'react';
+
+function TechStack() {
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const wrapper = section.querySelector('.dw-wrapper');
+        if (!wrapper) return;
+        if (entries[0].isIntersecting) {
+          wrapper.classList.remove('dw-paused');
+        } else {
+          wrapper.classList.add('dw-paused');
+        }
+      },
+      { threshold: 0.01 }
+    );
+    observer.observe(section);
+    // Start paused — will unpause when scrolled into view
+    const wrapper = section.querySelector('.dw-wrapper');
+    if (wrapper) wrapper.classList.add('dw-paused');
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-<section id="stack" className="stack">
+<section id="stack" className="stack" ref={sectionRef}>
     <h2 className="heading">My Tech <span>Stack</span></h2>
 
     <div className="stack-layout">

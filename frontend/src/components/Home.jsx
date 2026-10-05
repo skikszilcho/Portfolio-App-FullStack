@@ -1,10 +1,28 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { typingRoles } from '../utils/helpers.js';
 
 function Home() {
   const [roleIndex, setRoleIndex] = useState(0);
   const [visibleCharacters, setVisibleCharacters] = useState(0);
   const [deleting, setDeleting] = useState(false);
+  const sectionRef = useRef(null);
+
+  // Pause the rotating wheel when the Home section is off-screen
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const box = section.querySelector('.profession-box');
+    if (!box) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        box.style.animationPlayState = entries[0].isIntersecting ? 'running' : 'paused';
+      },
+      { threshold: 0.01 }
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const role = typingRoles[roleIndex];
@@ -33,7 +51,7 @@ function Home() {
   const currentRole = typingRoles[roleIndex].slice(0, visibleCharacters);
 
   return (
-    <section className="home" id="home">
+    <section className="home" id="home" ref={sectionRef}>
       <div className="home-content">
         <h3>Hello, My name is</h3>
         <h1><span className="home-name-highlight">Ikageng</span> Sebesho</h1>

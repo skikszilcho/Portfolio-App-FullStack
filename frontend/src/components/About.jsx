@@ -156,23 +156,28 @@ function About() {
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx    = canvas.getContext('2d');
-    let raf;
+    let raf      = null;
+    let visible  = false;
     let bubbles;
 
     function resize() {
       const dpr  = window.devicePixelRatio || 1;
       const rect = canvas.getBoundingClientRect();
-      // Set the drawing buffer to match the exact CSS-rendered size × DPR
-      // This guarantees a 1:1 pixel mapping so arcs stay circular
       canvas.width  = Math.round(rect.width  * dpr);
       canvas.height = Math.round(rect.height * dpr);
       ctx.scale(dpr, dpr);
-      // Bubble coordinates are in CSS pixels (rect dimensions)
       bubbles = makeBubbles(rect.width, rect.height);
     }
 
+    // Debounce resize to avoid thrashing on mobile orientation change
+    let resizeTimer;
+    function onResize() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(resize, 120);
+    }
+
     resize();
-    window.addEventListener('resize', resize);
+    window.addEventListener('resize', onResize);
 
     function tick() {
       const dpr = window.devicePixelRatio || 1;
@@ -224,10 +229,28 @@ function About() {
       raf = requestAnimationFrame(tick);
     }
 
-    raf = requestAnimationFrame(tick);
+    function startLoop() {
+      if (!raf) raf = requestAnimationFrame(tick);
+    }
+    function stopLoop() {
+      if (raf) { cancelAnimationFrame(raf); raf = null; }
+    }
+
+    // Only run the rAF loop while the section is visible
+    const observer = new IntersectionObserver(
+      (entries) => {
+        visible = entries[0].isIntersecting;
+        visible ? startLoop() : stopLoop();
+      },
+      { threshold: 0.01 }
+    );
+    observer.observe(canvas.closest('section'));
+
     return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener('resize', resize);
+      stopLoop();
+      clearTimeout(resizeTimer);
+      window.removeEventListener('resize', onResize);
+      observer.disconnect();
     };
   }, []);
 

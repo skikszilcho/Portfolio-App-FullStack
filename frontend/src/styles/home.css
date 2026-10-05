@@ -111,6 +111,7 @@
   inset: 0;
   animation: professionRotate 13s ease-out infinite;
   z-index: 2;
+  will-change: transform;
 }
 
 @keyframes professionRotate {
@@ -169,6 +170,7 @@
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 43% 50%, 0 0);
   z-index: 2;
   pointer-events: none;
+  will-change: clip-path;
 }
 
 /* Layer 3: Person photo */
@@ -213,6 +215,10 @@
 /* =========================================================
    RESPONSIVE — home section
 ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .profession-box { animation: none !important; }
+}
+
 @media (max-width: 768px) {
   .home { padding-top: 12rem; text-align: center; }
   .home-content { max-width: 100%; justify-items: center; }
