@@ -41,7 +41,7 @@ jobs:
       - name: Setup Node (backend)
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
           cache-dependency-path: backend/package-lock.json
 
@@ -53,3 +53,11 @@ jobs:
         working-directory: backend
         # --if-present: no-op until backend/package.json has a "lint" script (5.11 step 3)
         run: npm run lint --if-present
+
+      - name: Test backend
+        working-directory: backend
+        run: npm test
+        env:
+          LLM_PROVIDER: gemini
+          LLM_API_KEY: ci-test-placeholder-key
+          LLM_MODEL: gemini-2.5-flash-lite
