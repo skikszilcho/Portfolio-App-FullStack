@@ -9,7 +9,7 @@ const SESSION_CAP = 10;
 // The chat panel will show a "coming soon" placeholder instead of the live input.
 const STATIC_MODE = true;
 
-function ChatBot() {
+function ChatBot({ backendStatus, onRetry }) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);   // does NOT include the welcome message
   const [isLoading, setIsLoading] = useState(false);
@@ -87,6 +87,8 @@ function ChatBot() {
           onSuggest={handleSend}
           onClose={() => setIsOpen(false)}
           isDisabled={isDisabled}
+          backendStatus={backendStatus}
+          onRetry={onRetry}
           staticMode={STATIC_MODE}
         />
       )}

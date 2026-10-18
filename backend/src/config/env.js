@@ -24,4 +24,16 @@ module.exports = {
   AXIOM_API_KEY: process.env.AXIOM_API_KEY || null,
   AXIOM_DATASET: process.env.AXIOM_DATASET || 'portfolio-events',
   QUOTA_DB_PATH: process.env.QUOTA_DB_PATH || path.join(__dirname, '../../data/quota.db'),
+  
+    // Email Relay
+  GMAIL_USER:              process.env.GMAIL_USER              || null,
+  GMAIL_APP_PASSWORD:      process.env.GMAIL_APP_PASSWORD      || null,
+  CONTACT_RECIPIENT_EMAIL: process.env.CONTACT_RECIPIENT_EMAIL || null,
+
+  // Cloudflare R2
+  R2_ACCOUNT_ID:       process.env.R2_ACCOUNT_ID       || null,
+  R2_ACCESS_KEY_ID:    process.env.R2_ACCESS_KEY_ID    || null,
+  R2_SECRET_ACCESS_KEY: process.env.R2_SECRET_ACCESS_KEY || null,
+  R2_BUCKET_NAME:      process.env.R2_BUCKET_NAME      || null,
+  R2_CV_OBJECT_KEY:    process.env.R2_CV_OBJECT_KEY    || 'cv.pdf',
 };

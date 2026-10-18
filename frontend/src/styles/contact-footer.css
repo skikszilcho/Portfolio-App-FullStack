@@ -20,6 +20,21 @@
 .contact textarea { resize: none; }
 .contact form .btn { cursor: pointer; margin-top: 1rem; }
 
+/* ── Form submission status ───────────────────────────────────── */
+.form-success {
+  margin-top: 1.2rem;
+  font-size: 1.5rem;
+  color: #22c55e;    /* green — visible in both light and dark mode */
+  font-weight: 500;
+}
+
+.form-error {
+  margin-top: 1.2rem;
+  font-size: 1.5rem;
+  color: #ef4444;    /* red — visible in both light and dark mode */
+  font-weight: 500;
+}
+
 /* =========================================================
    FOOTER
 ========================================================= */
