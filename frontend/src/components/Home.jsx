@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { typingRoles } from '../utils/helpers.js';
+import { fetchCvUrl } from '../api/cv.js';
 
 function Home() {
   const [roleIndex, setRoleIndex] = useState(0);
   const [visibleCharacters, setVisibleCharacters] = useState(0);
   const [deleting, setDeleting] = useState(false);
+  // 'idle' | 'loading' | 'error'
+  const [cvState, setCvState] = useState('idle');
   const sectionRef = useRef(null);
 
   // Pause the rotating wheel when the Home section is off-screen
@@ -50,6 +53,20 @@ function Home() {
 
   const currentRole = typingRoles[roleIndex].slice(0, visibleCharacters);
 
+  async function handleCvDownload() {
+    if (cvState === 'loading') return;
+    setCvState('loading');
+    try {
+      const url = await fetchCvUrl();
+      window.location.href = url;   // triggers browser download
+      setCvState('idle');
+    } catch {
+      setCvState('error');
+      // Auto-clear the error after 4 seconds
+      setTimeout(() => setCvState('idle'), 4000);
+    }
+  }
+  
   return (
     <section className="home" id="home" ref={sectionRef}>
       <div className="home-content">
@@ -69,7 +86,19 @@ function Home() {
           <a href="#" aria-label="LinkedIn"><i className="bx bxl-linkedin"></i></a>
         </div>
 
-        <a href="#" className="btn">Download CV</a>
+        <button
+          className="btn"
+          onClick={handleCvDownload}
+          disabled={cvState === 'loading'}
+          aria-label="Download CV"
+        >
+          {cvState === 'loading' ? 'Downloading…' : 'Download CV'}
+        </button>
+        {cvState === 'error' && (
+          <p role="alert" className="cv-error-notice">
+            CV unavailable — please try again.
+          </p>
+        )}
       </div>
 
       <div className="home-img">

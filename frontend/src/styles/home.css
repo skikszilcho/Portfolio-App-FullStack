@@ -24,6 +24,13 @@
 .home-name-highlight { color: var(--main-color); }
 .home-content p { font-size: clamp(1.4rem, 1.2vw, 1.65rem); color: var(--muted-color); line-height: 1.75; }
 
+/* CV download error notice */
+.cv-error-notice {
+  margin-top: .8rem;
+  font-size: 1.4rem;
+  color: #ef4444;
+}
+
 .social-media {
   display: flex;
   align-items: center;

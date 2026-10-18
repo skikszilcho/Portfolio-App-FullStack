@@ -1,32 +1,31 @@
 import { useState, useEffect } from 'react';
 import { validateEmail } from '../utils/helpers.js';
+import { sendContactMessage } from '../api/contact.js';
 
 const initialValues = {
-  fullName: '',
-  email: '',
+  fullName:     '',
+  email:        '',
   mobileNumber: '',
-  subject: '',
-  message: '',
+  subject:      '',
+  message:      '',
 };
 
 function validate(values) {
   const errors = {};
-
-  if (!values.fullName.trim()) errors.fullName = 'Please enter your full name.';
-  if (!validateEmail(values.email)) {
-    errors.email = 'Please enter a valid email address.';
-  }
-  if (!values.mobileNumber.trim()) errors.mobileNumber = 'Please enter your mobile number.';
-  if (!values.subject.trim()) errors.subject = 'Please enter a subject.';
-  if (!values.message.trim()) errors.message = 'Please enter a message.';
-
+  if (!values.fullName.trim())       errors.fullName     = 'Please enter your full name.';
+  if (!validateEmail(values.email))  errors.email        = 'Please enter a valid email address.';
+  if (!values.mobileNumber.trim())   errors.mobileNumber = 'Please enter your mobile number.';
+  if (!values.subject.trim())        errors.subject      = 'Please enter a subject.';
+  if (!values.message.trim())        errors.message      = 'Please enter a message.';
   return errors;
 }
 
 function ContactForm() {
-  const [values, setValues] = useState(initialValues);
-  const [errors, setErrors] = useState({});
-  const [submitted, setSubmitted] = useState(false);
+  const [values,       setValues]       = useState(initialValues);
+  const [errors,       setErrors]       = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  // 'idle' | 'success' | 'error'
+  const [submitStatus, setSubmitStatus] = useState('idle');
 
   // Listen for Skikszilcho contact pre-fill events
   useEffect(() => {
@@ -34,8 +33,8 @@ function ContactForm() {
       const { subject, message } = e.detail || {};
       setValues((prev) => ({
         ...prev,
-        subject:  subject || prev.subject,
-        message:  message || prev.message,
+        subject: subject || prev.subject,
+        message: message || prev.message,
       }));
     }
     window.addEventListener('skikszilcho:prefill_contact', handlePrefill);
@@ -43,28 +42,37 @@ function ContactForm() {
   }, []);
 
   const handleChange = ({ target }) => {
-    const nextValues = { ...values, [target.name]: target.value };
-    setValues(nextValues);
-    setErrors((currentErrors) => ({ ...currentErrors, [target.name]: undefined }));
-    setSubmitted(false);
+    setValues((prev) => ({ ...prev, [target.name]: target.value }));
+    setErrors((prev) => ({ ...prev, [target.name]: undefined }));
+    setSubmitStatus('idle');
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const nextErrors = validate(values);
     setErrors(nextErrors);
+    if (Object.keys(nextErrors).length > 0) return;
 
-    if (Object.keys(nextErrors).length === 0) {
-      setSubmitted(true);
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      await sendContactMessage(values);
+      setSubmitStatus('success');
       setValues(initialValues);
+    } catch {
+      setSubmitStatus('error');
+      // Do NOT clear values — visitor should be able to retry without re-typing.
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const fieldProps = (name) => ({
     name,
-    value: values[name],
-    onChange: handleChange,
-    'aria-invalid': Boolean(errors[name]),
+    value:            values[name],
+    onChange:         handleChange,
+    'aria-invalid':   Boolean(errors[name]),
     'aria-describedby': errors[name] ? `${name}-error` : undefined,
   });
 
@@ -103,8 +111,23 @@ function ContactForm() {
         />
         {errors.message && <small id="message-error">{errors.message}</small>}
 
-        <input type="submit" value="Send Message" className="btn" />
-        {submitted && <p role="status">Thanks! Your message is ready to be sent.</p>}
+        <input
+          type="submit"
+          value={isSubmitting ? 'Sending…' : 'Send Message'}
+          className="btn"
+          disabled={isSubmitting}
+        />
+
+        {submitStatus === 'success' && (
+          <p role="status" className="form-success">
+            Your message has been sent! Ikageng will get back to you soon.
+          </p>
+        )}
+        {submitStatus === 'error' && (
+          <p role="alert" className="form-error">
+            Something went wrong. Please try again.
+          </p>
+        )}
       </form>
     </section>
   );

@@ -26,7 +26,7 @@ export default defineConfig({
   ],
 
   server: {
-    port: 3000,               // CHANGE: frontend dev port (keep in sync with CLIENT_URL in backend .env)
+    port: 3010,               // PORT_MAP: Portfolio-App frontend — see PORT_MAP.md
     proxy: {
       // Proxy /api/* requests to the backend during development.
       // CHANGE: update target port to match your backend PORT.

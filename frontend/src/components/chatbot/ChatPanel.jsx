@@ -14,7 +14,7 @@ const WELCOME_MESSAGE = {
   content: "Hi! I'm Skikszilcho — Ikageng's digital alter ego. Ask me about his skills, experience, or projects. Curious about what he does for fun? I can help with that too.",
 };
 
-function ChatPanel({ messages, isLoading, onSend, onClose, isDisabled, onSuggest, staticMode }) {
+function ChatPanel({ messages, isLoading, onSend, onClose, isDisabled, onSuggest, backendStatus, onRetry, staticMode }) {
   const [input, setInput] = useState('');
   const bottomRef = useRef(null);
 
@@ -101,20 +101,30 @@ function ChatPanel({ messages, isLoading, onSend, onClose, isDisabled, onSuggest
           <p className="chat-coming-soon__sub">Full AI backend deploying shortly. Check back soon!</p>
         </div>
       ) : (
-        <form className="chat-panel__input" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder={isDisabled ? 'Session limit reached' : 'Ask me anything about Ikageng...'}
-            disabled={isLoading || isDisabled}
-            aria-label="Chat input"
-          />
-          <button type="submit" disabled={isLoading || isDisabled || !input.trim()} aria-label="Send">
-            <i className="bx bx-send"></i>
-          </button>
-        </form>
+        /* Input bar OR backend-error state */
+        backendStatus === 'error' ? (
+          <div className="chat-backend-error">
+            <span>Backend is waking up… try again in a moment.</span>
+            <button className="chat-retry-btn" onClick={onRetry} type="button">
+              Retry
+            </button>
+          </div>
+        ) : (
+          <form className="chat-panel__input" onSubmit={handleSubmit}>
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder={isDisabled ? 'Session limit reached' : 'Ask me anything about Ikageng...'}
+              disabled={isLoading || isDisabled}
+              aria-label="Chat input"
+            />
+            <button type="submit" disabled={isLoading || isDisabled || !input.trim()} aria-label="Send">
+              <i className="bx bx-send"></i>
+            </button>
+          </form>
+        )
       )}
     </div>
   );
