@@ -1,6 +1,13 @@
 const Database = require('better-sqlite3');
 const path = require('path');
+const fs = require('fs');
 const { QUOTA_DB_PATH } = require('../config/env');
+
+// Ensure database directory exists
+const dbDir = path.dirname(QUOTA_DB_PATH);
+if (!fs.existsSync(dbDir)) {
+  fs.mkdirSync(dbDir, { recursive: true });
+}
 
 const db = new Database(QUOTA_DB_PATH);
 
@@ -41,10 +48,12 @@ function scheduleMidnightPurge() {
   const midnight = new Date(now);
   midnight.setHours(24, 0, 0, 0);
   const msUntilMidnight = midnight - now;
-  setTimeout(() => {
+  const timer = setTimeout(() => {
     purgeOldRecords();
-    setInterval(purgeOldRecords, 24 * 60 * 60 * 1000);
+    const dailyTimer = setInterval(purgeOldRecords, 24 * 60 * 60 * 1000);
+    dailyTimer.unref();
   }, msUntilMidnight);
+  timer.unref();
 }
 scheduleMidnightPurge();
 
